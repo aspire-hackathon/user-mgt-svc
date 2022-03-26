@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 
 const userRouter = require('./src/routers/userRouter');
+const causeRouter = require('./src/routers/causeRouter');
 
 const app = express();
 app.use(helmet());
@@ -15,6 +16,7 @@ const port = 8080;
 
 
 app.use('/user', userRouter);
+app.use('/cause', causeRouter);
 
 app.use('/', (req, res) => {
   res.send('User mgt server OK!!!');
