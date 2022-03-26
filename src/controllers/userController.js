@@ -9,6 +9,19 @@ const UserModel = mongoose.model('user');
 
 const userController = {
 
+  // Temporary
+  getUsers: (req,res) => {
+    try {
+      UserModel.find().exec().then((user)=>{
+        console.log("users ----",user)
+        res.status(200).json(user);
+      })
+    } catch(err) {
+      res.status(404).send({ msg: err });
+    }
+
+  },
+
   registerUser: (req, res, next) => {
     console.log('req.body----------------------------', req.body);
     const saltRounds = 10;
@@ -20,11 +33,13 @@ const userController = {
           } else {
             bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
               const userModel = new UserModel({
-                fname: req.body.fname,
-                lname: req.body.lname,
+                name: req.body.name,
                 username: req.body.username,
                 password: hash,
-                badge: req.body.badge
+                role: req.body.role,
+                contactNo: req.body.contactNo,
+                email: req.body.email,
+                address: req.body.address
               });
               console.log('userModel------------------------', userModel);
               userModel.save((error, response) => {
@@ -32,10 +47,12 @@ const userController = {
                 res.set('Content-Type', 'application/json');
                 res.status(201).send({
                   id: response._id,
-                  fname: response.fname,
-                  lname: response.lname,
+                  name: response.name,
                   username: response.username,
-                  badge: response.badge,
+                  role: response.role,
+                  contactNo: response.contactNo,
+                  email: response.email,
+                  address: response.address,
                   createdAt: response.createdAt,
                   msg: 'User registered successfully!!!'
                 });
@@ -102,10 +119,12 @@ const userController = {
       } else {
         return res.status(200).json({
           id: user._id,
-          fname: user.fname,
-          lname: user.lname,
+          name: user.name,
           username: user.username,
-          badge: user.badge,
+          role: user.role,
+          contactNo: user.contactNo,
+          email: user.email,
+          address: user.address,
           createdAt: user.createdAt,
         });
       }
@@ -119,10 +138,12 @@ const userController = {
       } else {
         return res.status(200).json({
           id: user[0]._id,
-          fname: user[0].fname,
-          lname: user[0].lname,
+          name: user[0].name,
           username: user[0].username,
-          badge: user[0].badge,
+          role: user[0].role,
+          contactNo: user[0].contactNo,
+          email: user[0].email,
+          address: user[0].address,
           createdAt: user[0].createdAt,
         });
       }

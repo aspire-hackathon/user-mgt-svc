@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AddressSchema = require('./AddressModel').schema;
 
 const UserSchema = new Schema({
   name: { type: String, require: true },
@@ -8,11 +9,7 @@ const UserSchema = new Schema({
   role: { type: String, required : true },
   contactNo: { type: String, required : true },
   email: { type: String, required : true },
-  district: { type: String, required : true },
-  state: { type: String, required : true },
-  pincode: { type: String, required : true },
-  lat: { type: String, required : true },
-  lng: { type: String, required : true },
+  address: { type: AddressSchema, required:true},
   createdAt: { type: Date, default: Date.now() }
 });
     
