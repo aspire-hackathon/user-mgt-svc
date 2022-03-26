@@ -15,7 +15,7 @@ spec:
       containers:
       - name: user-container
         # image: anokhadocker/user:latest
-        image: anokhadocker/aspire-user-mgt:1
+        image: ${REPOSITORY_TAG}
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
@@ -33,4 +33,3 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8080
-

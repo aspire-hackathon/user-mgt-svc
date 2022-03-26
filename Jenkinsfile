@@ -1,25 +1,21 @@
 pipeline {
    agent any
-
    environment {
-     //  must set the following environment variable
-     // DOCKERHUB_USERNAME = anokhadocker
      SERVICE_NAME = "user-mgt-svc"
-     REPOSITORY_TAG="anokhadocker/${SERVICE_NAME}:${BUILD_ID}"
+     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
    }
 
    stages {
-      stage('Building Image...') {
+      stage('Preparation') {
          steps {
-           sh 'docker image build -t ${REPOSITORY_TAG} .'
+            cleanWs()
+            git credentialsId: 'GitHub', url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}"
          }
       }
 
-      stage('Push image to docker registry') {
+      stage('Build and Push Image') {
          steps {
-            withDockerRegistry([ credentialsId: "dockerRegistryCred", url: '' ]) {
-               sh 'docker push ${REPOSITORY_TAG}'
-            }
+           sh 'docker image build -t ${REPOSITORY_TAG} .'
          }
       }
 
