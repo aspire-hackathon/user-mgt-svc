@@ -19,10 +19,12 @@ pipeline {
          }
       }
 
-      stage('Deploy to Cluster') {
-          steps {
-            sh 'envsubst < user-mgt.yaml | kubectl apply -f -'
-          }
+      stage('Push image to docker registry') {
+         steps {
+            withDockerRegistry([ credentialsId: "dockerRegistryCred", url: 'https://hub.docker.com' ]) {
+               sh 'docker push ${REPOSITORY_TAG}'
+            }
+         }
       }
    }
 }
