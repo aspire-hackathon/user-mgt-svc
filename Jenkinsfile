@@ -18,5 +18,11 @@ pipeline {
            sh 'docker image build -t ${REPOSITORY_TAG} .'
          }
       }
+
+      stage('Deploy to Cluster') {
+          steps {
+            sh 'envsubst < user-mgt.yaml | kubectl apply -f -'
+          }
+      }
    }
 }
