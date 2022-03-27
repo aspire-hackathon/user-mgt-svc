@@ -21,7 +21,7 @@ pipeline {
 
       stage('Push image to docker registry') {
          steps {
-            withDockerRegistry([ credentialsId: "dockerRegistryCred", url: 'https://hub.docker.com' ]) {
+            withDockerRegistry([ credentialsId: "dockerRegistryCred", url: '' ]) {
                sh 'docker push ${REPOSITORY_TAG}'
             }
          }
